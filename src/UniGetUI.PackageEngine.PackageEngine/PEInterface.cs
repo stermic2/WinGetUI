@@ -1,15 +1,7 @@
 using UniGetUI.Core.Logging;
 using UniGetUI.PackageEngine.Interfaces;
-using UniGetUI.PackageEngine.Managers.CargoManager;
-using UniGetUI.PackageEngine.Managers.ChocolateyManager;
-using UniGetUI.PackageEngine.Managers.DotNetManager;
-using UniGetUI.PackageEngine.Managers.NpmManager;
-using UniGetUI.PackageEngine.Managers.PipManager;
-using UniGetUI.PackageEngine.Managers.PowerShell7Manager;
 using UniGetUI.PackageEngine.Managers.PowerShellManager;
-using UniGetUI.PackageEngine.Managers.ScoopManager;
 using UniGetUI.PackageEngine.Managers.WingetManager;
-using UniGetUI.PackageEngine.Managers.VcpkgManager;
 using UniGetUI.PackageEngine.PackageLoader;
 
 namespace UniGetUI.PackageEngine
@@ -22,17 +14,8 @@ namespace UniGetUI.PackageEngine
         private const int ManagerLoadTimeout = 60; // 60 seconds timeout for Package Manager initialization (in seconds)
 
         public static readonly WinGet WinGet = new();
-        public static readonly Scoop Scoop = new();
-        public static readonly Chocolatey Chocolatey = new();
-        public static readonly Npm Npm = new();
-        public static readonly Pip Pip = new();
-        public static readonly DotNet DotNet = new();
-        public static readonly PowerShell PowerShell = new();
-        public static readonly PowerShell7 PowerShell7 = new();
-        public static readonly Cargo Cargo = new();
-        public static readonly Vcpkg Vcpkg = new();
 
-        public static readonly IPackageManager[] Managers = [WinGet, Scoop, Chocolatey, Npm, Pip, Cargo, Vcpkg, DotNet, PowerShell, PowerShell7];
+        public static readonly IPackageManager[] Managers = [WinGet];
 
         public static readonly DiscoverablePackagesLoader DiscoveredPackagesLoader = new(Managers);
         public static readonly UpgradablePackagesLoader UpgradablePackagesLoader = new(Managers);

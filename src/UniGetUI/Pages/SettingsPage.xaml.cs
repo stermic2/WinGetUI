@@ -15,7 +15,6 @@ using UniGetUI.Interface.Pages;
 using UniGetUI.Interface.Widgets;
 using UniGetUI.PackageEngine;
 using UniGetUI.PackageEngine.Interfaces;
-using UniGetUI.PackageEngine.Managers.VcpkgManager;
 using UniGetUI.PackageEngine.PackageClasses;
 using UniGetUI.PackageOperations;
 using UniGetUI.Pages.DialogPages;
@@ -210,131 +209,8 @@ namespace UniGetUI.Interface
 
                 // ----------------------------------------------------------------------------------------
 
-                ButtonCard Scoop_Install = new()
-                {
-                    Text = CoreTools.AutoTranslated("Install Scoop"),
-                    ButtonText = CoreTools.AutoTranslated("Install")
-                };
-                Scoop_Install.Click += (_, _) =>
-                {
-                    CoreTools.LaunchBatchFile(
-                        Path.Join(CoreData.UniGetUIExecutableDirectory, "Assets", "Utilities", "install_scoop.cmd"),
-                        CoreTools.Translate("Scoop Installer - WingetUI"));
-                    IPackageManagerExpanders[PEInterface.Scoop].ShowRestartRequiredBanner();
-                };
-                ButtonCard Scoop_Uninstall = new()
-                {
-                    Text = CoreTools.AutoTranslated("Uninstall Scoop (and its packages)"),
-                    ButtonText = CoreTools.AutoTranslated("Uninstall")
-                };
-                Scoop_Uninstall.Click += (_, _) =>
-                {
-                    CoreTools.LaunchBatchFile(
-                        Path.Join(CoreData.UniGetUIExecutableDirectory, "Assets", "Utilities", "uninstall_scoop.cmd"),
-                        CoreTools.Translate("Scoop Uninstaller - WingetUI"));
-                    IPackageManagerExpanders[PEInterface.Scoop].ShowRestartRequiredBanner();
-                };
-                ButtonCard Scoop_ResetAppCache = new()
-                {
-                    Text = CoreTools.AutoTranslated("Run cleanup and clear cache"),
-                    ButtonText = CoreTools.AutoTranslated("Run")
-                };
-                Scoop_ResetAppCache.Click += (_, _) =>
-                {
-                    CoreTools.LaunchBatchFile(
-                        Path.Join(CoreData.UniGetUIExecutableDirectory, "Assets", "Utilities", "scoop_cleanup.cmd"),
-                        CoreTools.Translate("Clearing Scoop cache - WingetUI"), RunAsAdmin: true);
-                };
+                //Removed some Scoop stuff
 
-                ExtraSettingsCards[PEInterface.Scoop].Add(Scoop_Install);
-                ExtraSettingsCards[PEInterface.Scoop].Add(Scoop_Uninstall);
-                ExtraSettingsCards[PEInterface.Scoop].Add(Scoop_ResetAppCache);
-
-                // ----------------------------------------------------------------------------------------
-
-                CheckboxCard Chocolatey_SystemChoco = new()
-                {
-                    Text = CoreTools.AutoTranslated("Use system Chocolatey"), SettingName = "UseSystemChocolatey"
-                };
-                Chocolatey_SystemChoco.StateChanged += (_, _) =>
-                {
-                    IPackageManagerExpanders[PEInterface.Chocolatey].ShowRestartRequiredBanner();
-                };
-
-                ExtraSettingsCards[PEInterface.Chocolatey].Add(Chocolatey_SystemChoco);
-
-                // ----------------------------------------------------------------------------------------
-
-                // GetDefaultTriplet factors in the `DefaultVcpkgTriplet` setting as its first priority
-                Settings.SetValue("DefaultVcpkgTriplet", Vcpkg.GetDefaultTriplet());
-                ComboboxCard Vcpkg_DefaultTriplet = new()
-                {
-                    Text = CoreTools.Translate("Default vcpkg triplet"), SettingName = "DefaultVcpkgTriplet"
-                };
-                foreach (string triplet in Vcpkg.GetSystemTriplets())
-                {
-                    Vcpkg_DefaultTriplet.AddItem(triplet, triplet);
-                }
-
-                Vcpkg_DefaultTriplet.ShowAddedItems();
-                ExtraSettingsCards[PEInterface.Vcpkg].Add(Vcpkg_DefaultTriplet);
-
-                ButtonCard Vcpkg_CustomVcpkgRoot = new()
-                {
-                    Text = "Change vcpkg root location", ButtonText = "Select",
-                };
-                StackPanel p = new() { Orientation = Orientation.Horizontal, Spacing = 5, };
-                var VcPkgRootLabel = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
-                var ResetVcPkgRootLabel = new HyperlinkButton { Content = CoreTools.Translate("Reset") };
-                var OpenVcPkgRootLabel = new HyperlinkButton { Content = CoreTools.Translate("Open") };
-
-                VcPkgRootLabel.Text = Settings.Get("CustomVcpkgRoot")
-                    ? Settings.GetValue("CustomVcpkgRoot")
-                    : "%VCPKG_ROOT%";
-                OpenVcPkgRootLabel.IsEnabled = Settings.Get("CustomVcpkgRoot");
-                ResetVcPkgRootLabel.IsEnabled = Settings.Get("CustomVcpkgRoot");
-
-                ResetVcPkgRootLabel.Click += (_, _) =>
-                {
-                    VcPkgRootLabel.Text = "%VCPKG_ROOT%";
-                    Settings.Set("CustomVcpkgRoot", false);
-                    ResetVcPkgRootLabel.IsEnabled = false;
-                    OpenVcPkgRootLabel.IsEnabled = false;
-                };
-
-                OpenVcPkgRootLabel.Click += (_, _) =>
-                {
-                    string directory = Settings.GetValue("CustomVcpkgRoot").Replace("/", "\\");
-                    if (directory.Any()) Process.Start("explorer.exe", directory);
-                };
-
-                Vcpkg_CustomVcpkgRoot.Click += (_, _) =>
-                {
-                    ExternalLibraries.Pickers.FolderPicker openPicker =
-                        new(MainApp.Instance.MainWindow.GetWindowHandle());
-                    string folder = openPicker.Show();
-                    if (folder != string.Empty)
-                    {
-                        Settings.SetValue("CustomVcpkgRoot", folder);
-                        VcPkgRootLabel.Text = folder;
-                        ResetVcPkgRootLabel.IsEnabled = true;
-                        OpenVcPkgRootLabel.IsEnabled = true;
-                    }
-                };
-
-                p.Children.Add(VcPkgRootLabel);
-                p.Children.Add(ResetVcPkgRootLabel);
-                p.Children.Add(OpenVcPkgRootLabel);
-                Vcpkg_CustomVcpkgRoot.Description = p;
-
-                Vcpkg_CustomVcpkgRoot.Click += (_, _) =>
-                {
-                    IPackageManagerExpanders[PEInterface.Vcpkg].ShowRestartRequiredBanner();
-                };
-
-                ExtraSettingsCards[PEInterface.Vcpkg].Add(Vcpkg_CustomVcpkgRoot);
-
-                // ----------------------------------------------------------------------------------------
 
                 foreach (IPackageManager Manager in PEInterface.Managers)
                 {
@@ -519,7 +395,7 @@ namespace UniGetUI.Interface
                         ParallelCard._checkbox.Content = (ParallelCard._checkbox.Content.ToString() ?? "").Replace("{pm}", Manager.DisplayName);
                         ExtraSettingsCards[Manager].Insert(index++, ParallelCard);*/
 
-                        if (Manager.Capabilities.SupportsCustomSources && Manager is not Vcpkg)
+                        if (Manager.Capabilities.SupportsCustomSources)
                         {
                             SettingsCard SourceManagerCard = new() { Resources = { ["SettingsCardLeftIndention"] = 10 } };
                             SourceManager SourceManager = new(Manager);

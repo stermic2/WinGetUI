@@ -340,16 +340,11 @@ namespace UniGetUI.Interface.Dialogs
                 SetTextToItem(License_Content_Uri, details.LicenseUrl);
             }
 
-            // Extended details section
+            // Extended details section   Chocolaty check removed
             SetTextToItem(ManifestUrl_Content, details.ManifestUrl);
-            if (Package.Manager == PEInterface.Chocolatey)
-            {
-                SetTextToItem(InstallerHash_Label, CoreTools.Translate("Installer SHA512") + ": ");
-            }
-            else
-            {
+
                 SetTextToItem(InstallerHash_Label, CoreTools.Translate("Installer SHA256") + ": ");
-            }
+
 
             SetTextToItem(InstallerHash_Content, details.InstallerHash);
             if (Package.Manager.Capabilities.CanDownloadInstaller)

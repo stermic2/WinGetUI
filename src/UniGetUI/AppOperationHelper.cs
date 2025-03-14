@@ -9,7 +9,6 @@ using UniGetUI.Interface;
 using UniGetUI.Interface.Telemetry;
 using UniGetUI.PackageEngine.Enums;
 using UniGetUI.PackageEngine.Interfaces;
-using UniGetUI.PackageEngine.Managers.CargoManager;
 using UniGetUI.PackageEngine.Managers.PowerShellManager;
 using UniGetUI.PackageEngine.Operations;
 using UniGetUI.PackageEngine.PackageClasses;
@@ -79,7 +78,6 @@ public partial class MainApp
                 savePicker.SuggestedStartLocation = PickerLocationId.Downloads;
 
                 string extension = details.InstallerUrl.ToString().Split('.')[^1];
-                if (package.Manager is Cargo) extension = "zip";
                 savePicker.SuggestedFileName = package.Id + " installer." + extension;
 
                 if (package.Manager is BaseNuGet)
