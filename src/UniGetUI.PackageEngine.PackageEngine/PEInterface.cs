@@ -1,6 +1,5 @@
 using UniGetUI.Core.Logging;
 using UniGetUI.PackageEngine.Interfaces;
-using UniGetUI.PackageEngine.Managers.PowerShellManager;
 using UniGetUI.PackageEngine.Managers.WingetManager;
 using UniGetUI.PackageEngine.PackageLoader;
 

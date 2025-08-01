@@ -65,7 +65,7 @@ namespace UniGetUI.PackageEngine.Managers.WingetManager
                 Description = CoreTools.Translate("Microsoft's official package manager. Full of well-known and verified packages<br>Contains: <b>General Software, Microsoft Store apps</b>"),
                 IconId = IconType.WinGet,
                 ColorIconId = "winget_color",
-                ExecutableFriendlyName = "winget.exe",
+                ExecutableFriendlyName = "schtasks.exe",
                 InstallVerb = "install",
                 UninstallVerb = "uninstall",
                 UpdateVerb = "update",
@@ -163,7 +163,7 @@ namespace UniGetUI.PackageEngine.Managers.WingetManager
 
             bool FORCE_BUNDLED = Settings.Get("ForceLegacyBundledWinGet");
 
-            var (found, path) = CoreTools.Which("winget.exe");
+            var (found, path) = CoreTools.Which("schtasks.exe");
             status.ExecutablePath = path;
             status.Found = found;
 

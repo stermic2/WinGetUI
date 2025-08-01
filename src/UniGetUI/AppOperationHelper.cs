@@ -9,7 +9,6 @@ using UniGetUI.Interface;
 using UniGetUI.Interface.Telemetry;
 using UniGetUI.PackageEngine.Enums;
 using UniGetUI.PackageEngine.Interfaces;
-using UniGetUI.PackageEngine.Managers.PowerShellManager;
 using UniGetUI.PackageEngine.Operations;
 using UniGetUI.PackageEngine.PackageClasses;
 using UniGetUI.PackageOperations;
@@ -80,11 +79,7 @@ public partial class MainApp
                 string extension = details.InstallerUrl.ToString().Split('.')[^1];
                 savePicker.SuggestedFileName = package.Id + " installer." + extension;
 
-                if (package.Manager is BaseNuGet)
-                {
-                    extension = "nupkg";
-                    savePicker.FileTypeChoices.Add("Compressed file", [".zip"]);
-                }
+                //Remove nupgk stuff
 
                 savePicker.FileTypeChoices.Add("Default", [$".{extension}"]);
 

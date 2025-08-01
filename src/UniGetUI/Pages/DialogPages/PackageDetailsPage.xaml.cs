@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Documents;
 using Windows.UI.Text;
 using UniGetUI.Core.Tools;
-using UniGetUI.PackageEngine;
 using UniGetUI.PackageEngine.Enums;
 using UniGetUI.PackageEngine.Interfaces;
 using UniGetUI.PackageEngine.PackageClasses;
